@@ -733,6 +733,12 @@ body {
     color: var(--text-main);
 }
 
+.page-indicator-text {
+    font-size: 11px;
+    color: var(--text-light);
+    font-weight: 500;
+}
+
 .badge-review {
     background: #FFFBEB;
     color: #F59E0B;
@@ -741,6 +747,8 @@ body {
     border-radius: 100px;
     font-size: 10px;
     font-weight: 600;
+    white-space: nowrap;
+    flex-shrink: 0;
 }
 
 .edit-btn {

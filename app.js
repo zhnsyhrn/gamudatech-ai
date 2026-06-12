@@ -683,16 +683,20 @@ function renderResultCards() {
                 </div>
             `;
 
-            const headerBadge = hasComment ? '<span class="badge-review header-badge" style="margin-left: 8px;">In-review</span>' : '';
+            const pageIndicator = `<span class="page-indicator-text">Page ${item.page}</span>`;
+            const headerBadge = hasComment ? '<span class="badge-review header-badge">In-review</span>' : '';
 
             card.innerHTML = `
                 <div class="card-header">
                     <div class="header-left">
                         ${headerIcon}
                         <div class="check-title">${item.title}</div>
-                        ${headerBadge}
                     </div>
-                    <span class="material-symbols-outlined chevron-icon">expand_more</span>
+                    <div class="card-header-right" style="display: flex; align-items: center; gap: 8px;">
+                        ${headerBadge}
+                        ${pageIndicator}
+                        <span class="material-symbols-outlined chevron-icon">expand_more</span>
+                    </div>
                 </div>
                 ${detailsSectionHTML}
             `;
