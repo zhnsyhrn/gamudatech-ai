@@ -48,9 +48,35 @@ const complianceData = [
         requiredValue: '3,000mm minimum',
         regulationRef: 'UBBL 1984 Reg. 13',
         comment: '',
-        page: 3,
-        x: 57,
-        y: 78
+        page: 1,
+        x: 23,
+        y: 35
+    },
+    {
+        id: 'c5',
+        title: 'Drawing metadata',
+        status: 'pass',
+        description: 'Drawing metadata such as project title and drawing numbers are present and match system records.',
+        extractedValue: 'Present',
+        requiredValue: 'Present',
+        regulationRef: 'UBBL 1984 Reg. 15',
+        comment: '',
+        page: 1,
+        x: 23,
+        y: 70
+    },
+    {
+        id: 'c6',
+        title: 'Project and client details',
+        status: 'pass',
+        description: 'Client details and project address match the submitted application forms.',
+        extractedValue: 'Matched',
+        requiredValue: 'Matched',
+        regulationRef: 'UBBL 1984 Reg. 16',
+        comment: '',
+        page: 1,
+        x: 42,
+        y: 20
     }
 ];
 
