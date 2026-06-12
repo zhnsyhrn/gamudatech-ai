@@ -542,7 +542,7 @@ body {
 }
 
 .result-card.status-fail { border-color: #FCA5A5; background: #FEF2F2; }
-.result-card.status-fail.active { border-color: #EF4444; box-shadow: 0 0 0 1px #EF4444; background: #FEF2F2; }
+.result-card.status-fail.active { border-color: #EF4444; box-shadow: 0 0 0 1px #EF4444; background: #FFFFFF; }
 
 .result-card.status-flagged { border-color: #FCD34D; }
 .result-card.status-flagged.active { border-color: #F59E0B; box-shadow: 0 0 0 1px #F59E0B; }
