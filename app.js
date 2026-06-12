@@ -644,11 +644,14 @@ function renderResultCards() {
                 </div>
             `;
 
+            const headerBadge = hasComment ? '<span class="badge-review header-badge" style="margin-left: 8px;">In-review</span>' : '';
+
             card.innerHTML = `
                 <div class="card-header">
                     <div class="header-left">
                         ${headerIcon}
                         <div class="check-title">${item.title}</div>
+                        ${headerBadge}
                     </div>
                     <span class="material-symbols-outlined chevron-icon">expand_more</span>
                 </div>
@@ -916,5 +919,21 @@ if (btnToggleResults && appContainerToggle) {
     });
 }
 
+function updateHeaderBadges() {
+    const failCount = complianceData.filter(d => d.status === 'fail').length;
+    const flaggedCount = complianceData.filter(d => d.status === 'flagged').length;
+    const passCount = complianceData.filter(d => d.status === 'pass').length;
+
+    const elFail = document.getElementById('badge-fail-count');
+    if (elFail) elFail.innerText = `${failCount} Fail${failCount !== 1 ? 's' : ''}`;
+    
+    const elFlagged = document.getElementById('badge-flagged-count');
+    if (elFlagged) elFlagged.innerText = `${flaggedCount} Flagged`;
+
+    const elPass = document.getElementById('badge-pass-count');
+    if (elPass) elPass.innerText = `${passCount} Pass${passCount !== 1 ? 'es' : ''}`;
+}
+
 // Run Init
+updateHeaderBadges();
 init();
