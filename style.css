@@ -524,7 +524,7 @@ body {
 .results-list {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: 6px;
     scroll-behavior: smooth;
 }
 
@@ -560,7 +560,7 @@ body {
     color: var(--text-muted);
     text-transform: uppercase;
     letter-spacing: 0.5px;
-    margin-top: 16px;
+    margin-top: 12px;
     margin-bottom: 0px;
     padding-left: 8px;
 }
@@ -573,7 +573,7 @@ body {
     background: white;
     border: 1px solid var(--border-color);
     border-radius: 8px;
-    padding: 16px;
+    padding: 12px 14px;
     cursor: pointer;
     transition: all var(--transition-normal);
     position: relative;
