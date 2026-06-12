@@ -77,6 +77,45 @@ const complianceData = [
         page: 1,
         x: 42,
         y: 20
+    },
+    {
+        id: 'c7',
+        title: 'Building height restriction',
+        status: 'pass',
+        description: 'Building height is within the permissible 12m limit for residential zones.',
+        extractedValue: '10.5m',
+        requiredValue: '12.0m maximum',
+        regulationRef: 'UBBL 1984 Reg. 25',
+        comment: '',
+        page: 1,
+        x: 60,
+        y: 40
+    },
+    {
+        id: 'c8',
+        title: 'Natural lighting requirement',
+        status: 'pass',
+        description: 'Window area is sufficient to provide adequate natural lighting.',
+        extractedValue: '15% of floor area',
+        requiredValue: '10% minimum',
+        regulationRef: 'UBBL 1984 Reg. 39',
+        comment: '',
+        page: 1,
+        x: 15,
+        y: 20
+    },
+    {
+        id: 'c9',
+        title: 'Ventilation openings',
+        status: 'pass',
+        description: 'Permanent ventilation openings meet the minimum required area.',
+        extractedValue: '10% of floor area',
+        requiredValue: '5% minimum',
+        regulationRef: 'UBBL 1984 Reg. 40',
+        comment: '',
+        page: 1,
+        x: 55,
+        y: 15
     }
 ];
 

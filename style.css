@@ -133,6 +133,10 @@ body {
     border: 1px solid var(--border-color);
 }
 
+.status-badge .material-symbols-outlined {
+    font-size: 16px;
+}
+
 .status-badge.error { color: var(--color-fail); background: var(--bg-fail-light); border-color: var(--border-fail); }
 .status-badge.warning { color: var(--color-flagged); background: var(--bg-flagged-light); border-color: var(--border-flagged); }
 .status-badge.success { color: var(--color-pass); background: var(--bg-pass-light); border-color: var(--border-pass); }
