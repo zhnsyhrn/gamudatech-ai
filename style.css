@@ -284,19 +284,23 @@ body {
 .drawing-container {
     position: relative;
     transform-origin: center center;
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: var(--shadow-lg);
-    background: white;
-    width: 90%;
-    max-width: 860px;
-    overflow: hidden;
+    transition: transform 0.3s ease-out;
+    width: 98%;
+    /* Limit width based on viewport height so the height never exceeds (100vh - 120px) */
+    max-width: min(1800px, calc((100vh - 120px) * 1.592)); 
 }
+
+.drawing-container.is-panning {
+    transition: none !important;
+}
+
 
 .drawing-svg {
     display: block;
     width: 100%;
     height: auto;
-    transition: filter 0.3s;
+    background: white;
+    box-shadow: var(--shadow-lg);
 }
 
 /* Tooltips */
@@ -403,9 +407,16 @@ body {
 }
 
 .pin.active {
-    transform: translate(-50%, -50%) scale(1.25);
-    box-shadow: 0 0 0 4px rgba(255,255,255,0.8), 0 4px 12px rgba(0,0,0,0.3);
+    transform: translate(-50%, -50%) scale(1.35);
+    box-shadow: 0 0 0 4px rgba(255,255,255,0.9), 0 4px 12px rgba(0,0,0,0.3);
     z-index: 20;
+}
+
+
+/* Dim inactive pins when one is active */
+.annotations-layer.has-active .pin:not(.active) {
+    opacity: 0.5;
+    filter: grayscale(60%);
 }
 
 @keyframes pulse {
@@ -413,6 +424,8 @@ body {
     70% { transform: scale(1.6); opacity: 0; }
     100% { transform: scale(1.6); opacity: 0; }
 }
+
+
 
 /* Right Panel: Results */
 .results-panel {
@@ -497,6 +510,20 @@ body {
     justify-content: center;
 }
 
+.status-group-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 16px;
+    margin-bottom: 0px;
+    padding-left: 4px;
+}
+.status-group-label:first-child {
+    margin-top: 4px;
+}
+
 /* Result Card */
 .result-card {
     background: white;
@@ -510,8 +537,8 @@ body {
     flex-shrink: 0;
 }
 
-.result-card.status-fail { border-color: #FCA5A5; }
-.result-card.status-fail.active { border-color: #EF4444; box-shadow: 0 0 0 1px #EF4444; }
+.result-card.status-fail { border-color: #FCA5A5; background: #FEF2F2; }
+.result-card.status-fail.active { border-color: #EF4444; box-shadow: 0 0 0 1px #EF4444; background: #FEF2F2; }
 
 .result-card.status-flagged { border-color: #FCD34D; }
 .result-card.status-flagged.active { border-color: #F59E0B; box-shadow: 0 0 0 1px #F59E0B; }

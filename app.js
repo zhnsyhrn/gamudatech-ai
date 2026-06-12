@@ -481,6 +481,12 @@ window.nextPage = function() {
 function renderPins() {
     annotationsLayer.innerHTML = '';
     
+    if (activeItemId) {
+        annotationsLayer.classList.add('has-active');
+    } else {
+        annotationsLayer.classList.remove('has-active');
+    }
+    
     const pinsForPage = complianceData.filter(item => {
         if (item.page !== currentPage) return false;
         if (currentFilter !== 'all' && item.status !== currentFilter) return false;
@@ -545,96 +551,117 @@ function renderResultCards() {
         return true;
     });
 
-    filteredData.forEach(item => {
-        const isActive = activeItemId === item.id;
-        const card = document.createElement('div');
-        card.className = `result-card status-${item.status} ${isActive ? 'active' : ''}`;
-        card.id = `card-${item.id}`;
-        card.dataset.id = item.id;
-        
-        const hasComment = item.comment && item.comment.trim().length > 0;
-        const needsInput = item.status === 'fail' || item.status === 'flagged';
-        const isEditing = editingItemId === item.id;
-        
-        let headerIcon = '';
-        if (item.status === 'fail') headerIcon = '<span class="material-symbols-outlined icon-filled icon-fail">cancel</span>';
-        else if (item.status === 'flagged') headerIcon = '<span class="material-symbols-outlined icon-filled icon-flagged">warning</span>';
-        else if (item.status === 'pass') headerIcon = '<span class="material-symbols-outlined icon-filled icon-pass">check_circle</span>';
+    const groups = currentFilter === 'all' 
+        ? [
+            { status: 'fail', label: 'Fail' },
+            { status: 'flagged', label: 'Flagged' },
+            { status: 'pass', label: 'Pass' }
+          ]
+        : [{ status: currentFilter, label: null }];
 
-        let commentSectionHTML = '';
-        if (needsInput) {
-            if (isEditing) {
-                // State 3: Editing
-                commentSectionHTML = `
-                    <div class="comment-section editing">
-                        <label class="comment-label">Add comment (optional)</label>
-                        <textarea class="comment-textarea" id="textarea-${item.id}">${item.comment || ''}</textarea>
-                        <div class="comment-actions">
-                            <button class="btn btn-outline" onclick="cancelComment('${item.id}', event)">Cancel</button>
-                            <button class="btn btn-primary" onclick="saveComment('${item.id}', event)">Add</button>
-                        </div>
-                    </div>
-                `;
-            } else if (hasComment) {
-                // State 4: Saved comment
-                commentSectionHTML = `
-                    <div class="comment-section saved">
-                        <div class="saved-comment-meta">
-                            <div class="meta-left">
-                                <span class="comment-added-text">Comment added</span>
-                                <span class="badge-review">In-review</span>
-                            </div>
-                            <button class="edit-btn" onclick="editComment('${item.id}', event)"><span class="material-symbols-outlined icon-sm">edit</span> Edit</button>
-                        </div>
-                        <div class="saved-comment-box">${item.comment}</div>
-                    </div>
-                `;
-            } else {
-                // State 2: Prompt to add comment
-                commentSectionHTML = `
-                    <div class="comment-section add-prompt">
-                        <button class="edit-btn btn-add-comment" onclick="editComment('${item.id}', event)"><span class="material-symbols-outlined icon-sm">edit</span> Add Comment</button>
-                    </div>
-                `;
-            }
+    groups.forEach(group => {
+        const groupItems = filteredData.filter(item => item.status === group.status);
+        if (groupItems.length === 0) return;
+
+        if (group.label) {
+            const labelEl = document.createElement('div');
+            labelEl.className = 'status-group-label';
+            labelEl.innerText = `${group.label} (${groupItems.length})`;
+            resultsList.appendChild(labelEl);
         }
-        
-        let detailsSectionHTML = `
-            <div class="card-details-section">
-                <div class="card-desc">${item.description}</div>
-                <div class="card-metrics">
-                    <div class="metric-box">
-                        <span class="metric-label">EXTRACTED VALUE</span>
-                        <span class="metric-value">${item.extractedValue}</span>
-                    </div>
-                    <div class="metric-box">
-                        <span class="metric-label">REQUIRED</span>
-                        <span class="metric-value">${item.requiredValue}</span>
-                    </div>
-                </div>
-                <div class="regulation-ref">
-                    <span class="material-symbols-outlined icon-sm">menu_book</span> ${item.regulationRef}
-                </div>
-                ${commentSectionHTML}
-            </div>
-        `;
 
-        card.innerHTML = `
-            <div class="card-header">
-                <div class="header-left">
-                    ${headerIcon}
-                    <div class="check-title">${item.title}</div>
+        groupItems.forEach(item => {
+            const isActive = activeItemId === item.id;
+            const card = document.createElement('div');
+            card.className = `result-card status-${item.status} ${isActive ? 'active' : ''}`;
+            card.id = `card-${item.id}`;
+            card.dataset.id = item.id;
+            
+            const hasComment = item.comment && item.comment.trim().length > 0;
+            const needsInput = item.status === 'fail' || item.status === 'flagged';
+            const isEditing = editingItemId === item.id;
+            
+            let headerIcon = '';
+            if (item.status === 'fail') headerIcon = '<span class="material-symbols-outlined icon-filled icon-fail">cancel</span>';
+            else if (item.status === 'flagged') headerIcon = '<span class="material-symbols-outlined icon-filled icon-flagged">warning</span>';
+            else if (item.status === 'pass') headerIcon = '<span class="material-symbols-outlined icon-filled icon-pass">check_circle</span>';
+
+            let commentSectionHTML = '';
+            if (needsInput) {
+                if (isEditing) {
+                    // State 3: Editing
+                    commentSectionHTML = `
+                        <div class="comment-section editing">
+                            <label class="comment-label">Add comment (optional)</label>
+                            <textarea class="comment-textarea" id="textarea-${item.id}">${item.comment || ''}</textarea>
+                            <div class="comment-actions">
+                                <button class="btn btn-outline" onclick="cancelComment('${item.id}', event)">Cancel</button>
+                                <button class="btn btn-primary" onclick="saveComment('${item.id}', event)">Add</button>
+                            </div>
+                        </div>
+                    `;
+                } else if (hasComment) {
+                    // State 4: Saved comment
+                    commentSectionHTML = `
+                        <div class="comment-section saved">
+                            <div class="saved-comment-meta">
+                                <div class="meta-left">
+                                    <span class="comment-added-text">Comment added</span>
+                                    <span class="badge-review">In-review</span>
+                                </div>
+                                <button class="edit-btn" onclick="editComment('${item.id}', event)"><span class="material-symbols-outlined icon-sm">edit</span> Edit</button>
+                            </div>
+                            <div class="saved-comment-box">${item.comment}</div>
+                        </div>
+                    `;
+                } else {
+                    // State 2: Prompt to add comment
+                    commentSectionHTML = `
+                        <div class="comment-section add-prompt">
+                            <button class="edit-btn btn-add-comment" onclick="editComment('${item.id}', event)"><span class="material-symbols-outlined icon-sm">edit</span> Add Comment</button>
+                        </div>
+                    `;
+                }
+            }
+            
+            let detailsSectionHTML = `
+                <div class="card-details-section">
+                    <div class="card-desc">${item.description}</div>
+                    <div class="card-metrics">
+                        <div class="metric-box">
+                            <span class="metric-label">EXTRACTED VALUE</span>
+                            <span class="metric-value">${item.extractedValue}</span>
+                        </div>
+                        <div class="metric-box">
+                            <span class="metric-label">REQUIRED</span>
+                            <span class="metric-value">${item.requiredValue}</span>
+                        </div>
+                    </div>
+                    <div class="regulation-ref">
+                        <span class="material-symbols-outlined icon-sm">menu_book</span> ${item.regulationRef}
+                    </div>
+                    ${commentSectionHTML}
                 </div>
-                <span class="material-symbols-outlined chevron-icon">expand_more</span>
-            </div>
-            ${detailsSectionHTML}
-        `;
-        
-        card.addEventListener('click', () => {
-            selectItem(item.id);
+            `;
+
+            card.innerHTML = `
+                <div class="card-header">
+                    <div class="header-left">
+                        ${headerIcon}
+                        <div class="check-title">${item.title}</div>
+                    </div>
+                    <span class="material-symbols-outlined chevron-icon">expand_more</span>
+                </div>
+                ${detailsSectionHTML}
+            `;
+            
+            card.addEventListener('click', (e) => {
+                if (e.target.closest('.card-details-section')) return;
+                selectItem(item.id);
+            });
+            
+            resultsList.appendChild(card);
         });
-        
-        resultsList.appendChild(card);
     });
 }
 
@@ -651,6 +678,12 @@ function selectItem(id) {
     
     activeItemId = id;
     editingItemId = null; // Reset editing state on switch
+    
+    // Auto reset the document view zoom and pan
+    currentScale = 1;
+    translateX = 0;
+    translateY = 0;
+    updateTransform();
     
     // Check if the item is on a different page, if so, switch page
     const item = complianceData.find(d => d.id === id);
@@ -750,17 +783,7 @@ const zoomIndicator = document.getElementById('zoom-indicator');
 const btnPan = document.getElementById('btn-pan');
 
 function updateTransform() {
-    const svgContainer = drawingContainer.querySelector('.drawing-svg');
-    if (svgContainer) {
-        svgContainer.style.transform = `translate(${translateX}px, ${translateY}px) scale(${currentScale})`;
-        svgContainer.style.transformOrigin = '0 0';
-        svgContainer.style.transition = isPanning ? 'none' : 'transform 0.2s';
-    }
-    
-    annotationsLayer.style.transform = `translate(${translateX}px, ${translateY}px) scale(${currentScale})`;
-    annotationsLayer.style.transformOrigin = '0 0';
-    annotationsLayer.style.transition = isPanning ? 'none' : 'transform 0.2s';
-    
+    drawingContainer.style.transform = `translate(${translateX}px, ${translateY}px) scale(${currentScale})`;
     zoomIndicator.innerText = `${Math.round(currentScale * 100)}%`;
 }
 
@@ -798,6 +821,7 @@ btnPan.addEventListener('click', () => {
 drawingContainer.addEventListener('mousedown', (e) => {
     if (!panToolActive) return;
     isPanning = true;
+    drawingContainer.classList.add('is-panning');
     startX = e.clientX - translateX;
     startY = e.clientY - translateY;
     drawingContainer.style.cursor = 'grabbing';
@@ -813,6 +837,7 @@ window.addEventListener('mousemove', (e) => {
 window.addEventListener('mouseup', () => {
     if (isPanning) {
         isPanning = false;
+        drawingContainer.classList.remove('is-panning');
         if (panToolActive) drawingContainer.style.cursor = 'grab';
         updateTransform();
     }
