@@ -453,6 +453,9 @@ body {
     justify-content: space-between;
     align-items: center;
     flex-shrink: 0;
+    position: relative;
+    z-index: 10;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .results-header h2 {
@@ -496,6 +499,9 @@ body {
     border-top: 1px solid var(--border-color);
     background: var(--bg-panel);
     flex-shrink: 0;
+    position: relative;
+    z-index: 10;
+    box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .footer-note {
