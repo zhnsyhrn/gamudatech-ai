@@ -72,16 +72,22 @@ body {
 
 /* Header */
 .header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
     height: 56px;
-    background: var(--bg-panel);
-    border-bottom: 1px solid var(--border-color);
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0 24px;
     flex-shrink: 0;
-    z-index: 10;
-    box-shadow: var(--shadow-sm);
+    z-index: 50;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
 .header-left {
@@ -93,12 +99,12 @@ body {
 .project-icon {
     width: 32px;
     height: 32px;
-    background-color: #DBEAFE;
+    background-color: #2D1B3E;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--color-primary);
+    color: #FFFFFF;
 }
 
 .project-info h1 {
@@ -116,7 +122,8 @@ body {
 
 .header-center {
     display: flex;
-    gap: 12px;
+    align-items: center;
+    gap: 8px;
     margin-left: auto;
     margin-right: 16px;
 }
@@ -211,6 +218,7 @@ body {
     display: flex;
     flex-direction: column;
     flex: 1;
+    position: relative;
     overflow: hidden;
 }
 
@@ -231,15 +239,16 @@ body {
     bottom: 24px;
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(8px);
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
     padding: 8px 16px;
     border-radius: 100px;
     display: flex;
     align-items: center;
     gap: 16px;
-    box-shadow: var(--shadow-md);
-    border: 1px solid var(--border-color);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.5);
     z-index: 20;
 }
 
@@ -304,7 +313,7 @@ body {
     width: 100%;
     height: auto;
     background: white;
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--shadow-md);
 }
 
 /* Tooltips */
@@ -431,7 +440,6 @@ body {
 
 
 
-/* Right Panel: Results */
 .results-panel {
     flex: 0 0 35%;
     max-width: 450px;
@@ -440,10 +448,22 @@ body {
     flex-direction: column;
     border-left: 1px solid var(--border-color);
     box-shadow: -4px 0 12px rgba(0, 0, 0, 0.04);
+    transition: all 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+    overflow: hidden;
+    opacity: 1;
 }
 
 .app-container.panel-closed .results-panel {
-    display: none;
+    flex: 0 0 0%;
+    max-width: 0;
+    border-left-width: 0;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.results-panel > * {
+    /* Prevent content from squishing during animation; let it get clipped instead */
+    min-width: 350px;
 }
 
 .results-header {
@@ -456,7 +476,6 @@ body {
     align-items: center;
     flex-shrink: 0;
     z-index: 10;
-    box-shadow: var(--shadow-sm);
 }
 
 .results-header h2 {
@@ -464,13 +483,15 @@ body {
     font-weight: 600;
 }
 
+
 .filter-select {
-    padding: 5px 36px 5px 12px;
-    border: 1px solid var(--border-color);
+    padding: 6px 36px 6px 12px;
+    border: 1px solid var(--border-hover);
     border-radius: 6px;
     font-size: 13px;
+    font-weight: 500;
     color: var(--text-main);
-    background-color: white;
+    background-color: var(--bg-page);
     background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23475569' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
     background-repeat: no-repeat;
     background-position: right 12px center;
@@ -480,6 +501,18 @@ body {
     outline: none;
     cursor: pointer;
     font-family: 'Inter', sans-serif;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease;
+}
+
+.filter-select:hover {
+    border-color: var(--color-primary);
+    background-color: white;
+}
+
+.filter-select:focus {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
 }
 
 .results-content {

@@ -137,7 +137,7 @@ const pages = [
 `
 <svg class="drawing-svg" id="svg-page-1" viewBox="0 0 860 540" xmlns="http://www.w3.org/2000/svg">
 
-    <rect width="860" height="540" fill="#F7F7F4"/>
+    <rect width="860" height="540" fill="#FFFFFF"/>
 
     <!-- Drawing border -->
     <rect x="20" y="20" width="820" height="500" fill="none" stroke="#AAAAAA" stroke-width="1"/>
@@ -145,7 +145,7 @@ const pages = [
     <rect x="30" y="30" width="800" height="480" fill="none" stroke="#CCCCCC" stroke-width="0.5" stroke-dasharray="4,3"/>
 
     <!-- ── Outer building walls ── -->
-    <rect x="80" y="70" width="530" height="370" fill="#EFEFEC" stroke="#2C2C2C" stroke-width="5"/>
+    <rect x="80" y="70" width="530" height="370" fill="#FFFFFF" stroke="#2C2C2C" stroke-width="5"/>
 
     <!-- ── Interior walls ── -->
     <!-- Vertical: bedroom/living divide -->
@@ -287,7 +287,7 @@ const pages = [
 `
 <svg class="drawing-svg" id="svg-page-2" viewBox="0 0 860 440" xmlns="http://www.w3.org/2000/svg">
 
-    <rect width="860" height="440" fill="#F7F7F4"/>
+    <rect width="860" height="440" fill="#FFFFFF"/>
     <rect x="20" y="20" width="820" height="400" fill="none" stroke="#AAAAAA" stroke-width="1"/>
     <rect x="30" y="30" width="800" height="380" fill="none" stroke="#CCCCCC" stroke-width="0.5" stroke-dasharray="4,3"/>
 
@@ -399,11 +399,11 @@ const pages = [
 `
 <svg class="drawing-svg" id="svg-page-3" viewBox="0 0 860 320" xmlns="http://www.w3.org/2000/svg">
 
-    <rect width="860" height="320" fill="#F7F7F4"/>
+    <rect width="860" height="320" fill="#FFFFFF"/>
     <rect x="20" y="20" width="820" height="280" fill="none" stroke="#AAAAAA" stroke-width="1"/>
 
     <!-- Context: corner of a drawing sheet -->
-    <rect x="40" y="40" width="340" height="250" fill="#EFEFEC" stroke="#CCCCCC" stroke-width="0.8" stroke-dasharray="6,4"/>
+    <rect x="40" y="40" width="340" height="250" fill="#FFFFFF" stroke="#CCCCCC" stroke-width="0.8" stroke-dasharray="6,4"/>
     <text x="210" y="175" text-anchor="middle" font-size="12" fill="#BBBBBB" font-family="Arial">[ Drawing content ]</text>
 
     <!-- Title block -->
