@@ -116,6 +116,19 @@ const complianceData = [
         page: 1,
         x: 55,
         y: 15
+    },
+    {
+        id: 'c10',
+        title: 'Principal Architect Signature',
+        status: 'fail',
+        description: 'The drawing sheet is missing the signature of the Principal Architect in the title block.',
+        extractedValue: 'Missing',
+        requiredValue: 'Required',
+        regulationRef: 'UBBL 1984 Reg. 8',
+        comment: '',
+        page: 3,
+        x: 82.5,
+        y: 89
     }
 ];
 
