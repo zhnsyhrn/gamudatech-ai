@@ -8,6 +8,7 @@ const complianceData = [
         extractedValue: '1,050mm',
         requiredValue: '1,200mm',
         regulationRef: 'UBBL 1984 Reg. 42',
+        regulationText: 'Every corridor shall be of not less than 1.2 metres in width and shall be unobstructed.',
         comment: '',
         page: 1,
         x: 10, // percentage coordinates for pin
@@ -21,6 +22,7 @@ const complianceData = [
         extractedValue: '1',
         requiredValue: '2 exits minimum',
         regulationRef: 'UBBL 1984 Reg. 165',
+        regulationText: 'Every building or part thereof shall be provided with a minimum of two separate and independent emergency exits.',
         comment: 'Second exit shown on Level 2, page 4.',
         page: 1,
         x: 23.5,
@@ -34,6 +36,7 @@ const complianceData = [
         extractedValue: 'Not extracted',
         requiredValue: 'Required for analysis',
         regulationRef: 'UBBL 1984 Reg. 3',
+        regulationText: 'Gross floor area calculations shall be clearly stated and tabulated on the submission plans.',
         comment: '',
         page: 2,
         x: 69,
@@ -47,6 +50,7 @@ const complianceData = [
         extractedValue: '4,500mm',
         requiredValue: '3,000mm minimum',
         regulationRef: 'UBBL 1984 Reg. 13',
+        regulationText: 'The minimum setback for residential buildings from the road boundary shall be 3.0 metres.',
         comment: '',
         page: 1,
         x: 23,
@@ -60,6 +64,7 @@ const complianceData = [
         extractedValue: 'Present',
         requiredValue: 'Present',
         regulationRef: 'UBBL 1984 Reg. 15',
+        regulationText: 'All drawings shall bear the necessary metadata including project title, drawing number, scale, and date.',
         comment: '',
         page: 1,
         x: 23,
@@ -73,6 +78,7 @@ const complianceData = [
         extractedValue: 'Matched',
         requiredValue: 'Matched',
         regulationRef: 'UBBL 1984 Reg. 16',
+        regulationText: 'Client name, address, and project details must be consistent across all application documents and drawings.',
         comment: '',
         page: 1,
         x: 42,
@@ -86,6 +92,7 @@ const complianceData = [
         extractedValue: '10.5m',
         requiredValue: '12.0m maximum',
         regulationRef: 'UBBL 1984 Reg. 25',
+        regulationText: 'The maximum permissible height for residential buildings in this zone shall not exceed 12.0 metres.',
         comment: '',
         page: 1,
         x: 60,
@@ -99,6 +106,7 @@ const complianceData = [
         extractedValue: '15% of floor area',
         requiredValue: '10% minimum',
         regulationRef: 'UBBL 1984 Reg. 39',
+        regulationText: 'Natural lighting shall be provided by means of windows having an area of not less than 10% of the clear floor area of such room.',
         comment: '',
         page: 1,
         x: 15,
@@ -112,6 +120,7 @@ const complianceData = [
         extractedValue: '10% of floor area',
         requiredValue: '5% minimum',
         regulationRef: 'UBBL 1984 Reg. 40',
+        regulationText: 'Natural ventilation shall be provided by means of permanent openings having an openable area of not less than 5% of the clear floor area.',
         comment: '',
         page: 1,
         x: 55,
@@ -125,6 +134,7 @@ const complianceData = [
         extractedValue: 'Missing',
         requiredValue: 'Required',
         regulationRef: 'UBBL 1984 Reg. 8',
+        regulationText: 'Every plan submitted shall bear the signature and stamp of the qualified person who prepared it.',
         comment: '',
         page: 3,
         x: 82.5,
@@ -634,9 +644,17 @@ function renderResultCards() {
             const isEditing = editingItemId === item.id;
             
             let headerIcon = '';
-            if (item.status === 'fail') headerIcon = '<span class="material-symbols-outlined icon-filled icon-fail">cancel</span>';
-            else if (item.status === 'flagged') headerIcon = '<span class="material-symbols-outlined icon-filled icon-flagged">warning</span>';
-            else if (item.status === 'pass') headerIcon = '<span class="material-symbols-outlined icon-filled icon-pass">check_circle</span>';
+            let metricIcon = '';
+            if (item.status === 'fail') {
+                headerIcon = '<span class="material-symbols-outlined icon-filled icon-fail">cancel</span>';
+                metricIcon = '<span class="material-symbols-outlined metric-status-icon icon-fail">close</span>';
+            } else if (item.status === 'flagged') {
+                headerIcon = '<span class="material-symbols-outlined icon-filled icon-flagged">warning</span>';
+                metricIcon = '<span class="material-symbols-outlined metric-status-icon icon-flagged">priority_high</span>';
+            } else if (item.status === 'pass') {
+                headerIcon = '<span class="material-symbols-outlined icon-filled icon-pass">check_circle</span>';
+                metricIcon = '<span class="material-symbols-outlined metric-status-icon icon-pass">check</span>';
+            }
 
             let commentSectionHTML = '';
             if (needsInput) {
@@ -681,16 +699,20 @@ function renderResultCards() {
                     <div class="card-desc">${item.description}</div>
                     <div class="card-metrics">
                         <div class="metric-box">
-                            <span class="metric-label">EXTRACTED VALUE</span>
+                            <span class="metric-label">Extracted Value</span>
                             <span class="metric-value">${item.extractedValue}</span>
+                            ${metricIcon}
                         </div>
                         <div class="metric-box">
-                            <span class="metric-label">REQUIRED</span>
+                            <span class="metric-label">Required</span>
                             <span class="metric-value">${item.requiredValue}</span>
                         </div>
                     </div>
                     <div class="regulation-ref">
-                        <span class="material-symbols-outlined icon-sm">menu_book</span> ${item.regulationRef}
+                        <div class="reg-link">
+                            <span class="material-symbols-outlined icon-sm">menu_book</span> ${item.regulationRef}
+                        </div>
+                        ${item.regulationText ? `<div class="reg-text">${item.regulationText}</div>` : ''}
                     </div>
                     ${commentSectionHTML}
                 </div>
