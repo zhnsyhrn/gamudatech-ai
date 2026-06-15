@@ -367,7 +367,22 @@ body {
 .modal-actions {
     display: flex;
     justify-content: flex-end;
-    gap: 12px;
+    gap: 8px;
+}
+
+.modal-actions .btn {
+    padding: 10px 20px;
+    font-size: 14px;
+}
+
+.btn-text {
+    background: transparent;
+    color: var(--color-primary);
+    border: 1px solid transparent;
+}
+
+.btn-text:hover {
+    background: rgba(59, 130, 246, 0.1);
 }
 
 /* Annotations / Pins */
@@ -569,16 +584,26 @@ body {
 }
 
 /* Result Card */
+@keyframes slideUpFade {
+    0% { opacity: 0; transform: translateY(15px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
 .result-card {
     background: white;
     border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 12px 14px;
     cursor: pointer;
-    transition: all var(--transition-normal);
+    transition: all var(--transition-fast);
     position: relative;
     overflow: hidden;
     flex-shrink: 0;
+}
+
+.result-card.animate-entrance {
+    animation: slideUpFade 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    opacity: 0;
 }
 
 .result-card.status-fail { border-color: #FCA5A5; background: #FEF2F2; }
@@ -608,10 +633,18 @@ body {
 
 .chevron-icon {
     color: var(--text-muted);
-    transition: transform 0.3s ease;
+    transition: transform var(--transition-normal);
 }
 .result-card.active .chevron-icon {
     transform: rotate(180deg);
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+.icon-spin {
+    animation: spin 1.5s linear infinite;
 }
 
 .check-title {

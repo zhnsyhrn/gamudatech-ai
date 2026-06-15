@@ -605,13 +605,15 @@ function renderPins() {
 }
 
 // Render Result Cards in the sidebar
-function renderResultCards() {
+function renderResultCards(animate = false) {
     resultsList.innerHTML = '';
     
     const filteredData = complianceData.filter(item => {
         if (currentFilter !== 'all' && item.status !== currentFilter) return false;
         return true;
     });
+
+    let globalCardIndex = 0;
 
     const groups = currentFilter === 'all' 
         ? [
@@ -635,9 +637,11 @@ function renderResultCards() {
         groupItems.forEach(item => {
             const isActive = activeItemId === item.id;
             const card = document.createElement('div');
-            card.className = `result-card status-${item.status} ${isActive ? 'active' : ''}`;
+            card.className = `result-card status-${item.status} ${isActive ? 'active' : ''} ${animate ? 'animate-entrance' : ''}`;
+            if (animate) card.style.animationDelay = `${globalCardIndex * 0.04}s`;
             card.id = `card-${item.id}`;
             card.dataset.id = item.id;
+            globalCardIndex++;
             
             const hasComment = item.comment && item.comment.trim().length > 0;
             const needsInput = item.status === 'fail' || item.status === 'flagged';
@@ -1015,3 +1019,30 @@ function updateHeaderBadges() {
 // Run Init
 updateHeaderBadges();
 init();
+
+// Recheck Logic
+const btnRecheck = document.querySelector('.btn-recheck');
+const recheckModal = document.getElementById('recheck-modal');
+const recheckLoadingScreen = document.getElementById('recheck-loading-screen');
+
+if (btnRecheck) {
+    btnRecheck.addEventListener('click', () => {
+        if (recheckModal) recheckModal.classList.add('active');
+    });
+}
+
+window.closeRecheckModal = function() {
+    if (recheckModal) recheckModal.classList.remove('active');
+}
+
+window.startRecheck = function() {
+    if (recheckModal) recheckModal.classList.remove('active');
+    if (recheckLoadingScreen) recheckLoadingScreen.classList.add('active');
+    
+    // Simulate recheck process for 2.5 seconds
+    setTimeout(() => {
+        if (recheckLoadingScreen) recheckLoadingScreen.classList.remove('active');
+        // Refresh the results visually with animation
+        renderResultCards(true);
+    }, 2500);
+}

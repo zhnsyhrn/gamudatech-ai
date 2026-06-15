@@ -111,6 +111,25 @@
         </div>
     </div>
 
+    <!-- Recheck Modal -->
+    <div class="modal-overlay" id="recheck-modal">
+        <div class="modal-content">
+            <h2>Confirm Recheck</h2>
+            <p style="margin-bottom: 24px; color: var(--text-muted);">This will re-run the compliance analysis on the current drawing. Do you wish to continue?</p>
+            <div class="modal-actions">
+                <button class="btn btn-text" onclick="closeRecheckModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="startRecheck()">Yes, continue</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recheck Loading Screen -->
+    <div class="modal-overlay" id="recheck-loading-screen" style="flex-direction: column; background: rgba(15, 23, 42, 0.85); backdrop-filter: blur(8px);">
+        <span class="material-symbols-outlined icon-spin" style="font-size: 48px; color: var(--color-primary); margin-bottom: 16px;">autorenew</span>
+        <h2 style="color: white; font-weight: 500; text-align: center;">Rechecking compliance...</h2>
+        <p style="color: #cbd5e1; margin-top: 8px; text-align: center;">Analyzing the latest drawing changes against UBBL 1984.</p>
+    </div>
+
     <script src="app.js?v=9"></script>
 </body>
 </html>
